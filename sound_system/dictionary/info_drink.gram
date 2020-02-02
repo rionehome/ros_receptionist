@@ -1,0 +1,6 @@
+#JSGF V1.0;
+grammar info_drink;
+public <rule> = <command> <drink> | <noise>;
+<command> = my favorite drink is;
+<drink> = rum | whisky | gin | beer | red wine | white wine;
+<noise> = o | ti | v | ku | sa | r | yo | n | mu | la | ra | f | mo | li | he | lu | hi | a | su | j | w | ta | z | tu | wa | no | p | l | lo | na | h | nu | se | t | to | g | le | k | ke | q | so | x | re | te | s | wo | ka | ne | ru | ha | ko | hu | ni | wu | ya | ki | ro | ho | me | ma;

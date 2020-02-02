@@ -1,0 +1,6 @@
+#JSGF V1.0;
+grammar info_name;
+public <rule> = <command> <name> | <noise>;
+<command> = my name is;
+<name> = jacob | sophia | mason | ethan | noah | emma;
+<noise> = a | ru | ki | le | no | sa | t | ro | lo | ma | s | na | f | ta | j | ho | ko | tu | o | mo | so | ra | l | se | he | su | wu | re | ke | wa | wo | me | ku | q | ya | lu | h | la | k | w | yo | nu | ti | te | ka | to | hu | v | r | z | x | g | ha | p | ni | n | hi | ne | mu | li;
