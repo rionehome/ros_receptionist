@@ -53,7 +53,7 @@ setup(
         'Programming Language :: Python',
         'Topic :: Software Development',
     ],
-    description='sound package for carry my luggage',
+    description='sound package for reseptionist',
     license='Apache License, Version 2.0',
     tests_require=['pytest'],
     entry_points={
