@@ -33,14 +33,42 @@ yes_no_gram_path = file_path.replace(
 
 # log file
 result_path = file_path.replace(
-    'module/module_information.py', 'log/information-{}.txt').format(str(datetime.datetime.now()))
+    'module/module_information.py',
+    'log/information-{}.txt').format(str(datetime.datetime.now()))
 
 name = None
 drink = None
+first = True
+confirmer_word = None
+result = None
+def confirmer(word):
+    # Detect yes or no
+    setup_live_speech(False, yes_no_dic_path, yes_no_gram_path, 1e-10)
+    module_beep.beep("start")
+    for question2 in live_speech:
+        print("\n[*] CONFIRM " + word.upper() + " ...")
+        # print(question2)
 
-# Listen question, or speak the number of men and women
+        # Noise list
+        noise_words = read_noise_word(yes_no_gram_path)
+
+        if str(question2) not in noise_words:
+            file = open(result_path, 'a')
+            file.write(str(datetime.datetime.now()) + ": " + str(question2) + "\n")
+            file.close()
+
+            if str(question2) == "yes":return "yes"
+            elif str(question2) == "no":return "no"
+            elif str(question2) == "please say again":return "please say again"
+            # noise
+            else:
+                print(".*._noise_.*.")
+                print("\n[*] CONFIRM " + word.upper() + " ...")
+                pass
+
+
+
 def information(task):
-
     ###############
     #
     # use this module at find my mate section
@@ -55,11 +83,15 @@ def information(task):
     global live_speech
     global name
     global drink
+    global sentence
+    global first
     if task == "name":
-
-        answer = "Welcome to our party! Let me know your name."
-        print("\n---------------------------------\n", answer, "\n---------------------------------\n")
-        module_pico.speak(answer)
+        if first == True:
+            answer = "Welcome to our party! Let me know your name."
+            print("\n---------------------------------\n", answer,
+                  "\n---------------------------------\n")
+            module_pico.speak(answer)
+            first = False
         setup_live_speech(False, name_dic_path, name_gram_path, 1e-10)
         module_beep.beep("start")
         for question1 in live_speech:
@@ -76,73 +108,16 @@ def information(task):
                 file.close()
                 pause()
                 module_beep.beep("stop")
-                print("\n-----------your name-----------\n",str(question1),"\n---------------------------------\n")
+                print("\n-----------your name-----------\n",str(question1)
+                      ,"\n---------------------------------\n")
                 name = str(question1).replace("my name is ","")
                 sentence = "Are you " + str(name) + " ?"
-                print("\n---------------------------------\n",sentence,"\n---------------------------------\n")
+                print("\n---------------------------------\n",sentence,
+                      "\n---------------------------------\n")
 
                 # Ask yes-no question
                 module_pico.speak(sentence)
-                # Detect yes or no
-                setup_live_speech(False, yes_no_dic_path, yes_no_gram_path, 1e-10)
-                flag = True
-                while flag:
-                    module_beep.beep("start")
-                    for question2 in live_speech:
-                        print("\n[*] CONFIRM YOUR NAME ...")
-                        #print(question2)
-
-                        # Noise list
-                        noise_words = read_noise_word(yes_no_gram_path)
-
-                        if str(question2) not in noise_words:
-                            file = open(result_path, 'a')
-                            file.write(str(datetime.datetime.now())+": "+str(question2)+"\n")
-                            file.close()
-
-                            if str(question2) == "yes":
-
-                                # Deside name
-                                pause()
-                                module_beep.beep("stop")
-                                answer = "Sure, I understand your name is " + str(name) + "."
-                                print("\n---------------------------------\n",answer,"\n---------------------------------\n")
-                                module_pico.speak(answer)
-                                return str(name)
-
-                            elif str(question2) == "no":
-
-                                # Fail, ask name one more time
-                                pause()
-                                module_beep.beep("stop")
-                                answer = "Sorry, please tell me your name, again."
-                                print("\n---------------------------------\n",answer,"\n---------------------------------\n")
-                                module_pico.speak(answer)
-                                module_beep.beep("start")
-                                del (live_speech)
-                                setup_live_speech(False, name_dic_path, name_gram_path, 1e-10)
-                                noise_words = read_noise_word(name_gram_path)
-                                flag = False
-                                break
-
-
-                            elif str(question2) == "please say again":
-
-                                pause()
-                                module_beep.beep("stop")
-                                print("\n---------------------------------\n",sentence,"\n---------------------------------\n")
-                                module_pico.speak(sentence)
-                                module_beep.beep("start")
-                                # Ask yes-no question to barman
-                                del(live_speech)
-                                setup_live_speech(False, yes_no_dic_path, yes_no_gram_path, 1e-10)
-                                noise_words = read_noise_word(yes_no_gram_path)
-
-                        # noise
-                        else:
-                            print(".*._noise_.*.")
-                            print("\n[*] CONFIRM YOUR NAME ...")
-                            pass
+                return
 
             # noise
             else:
@@ -151,9 +126,12 @@ def information(task):
                 pass
 
     elif task == "drink":
-        answer = "Let me know your favorite drink."
-        print("\n---------------------------------\n", answer, "\n---------------------------------\n")
-        module_pico.speak(answer)
+        if first == True:
+            answer = "Let me know your favorite drink."
+            print("\n---------------------------------\n", answer,
+                  "\n---------------------------------\n")
+            module_pico.speak(answer)
+            first = False
         setup_live_speech(False, drink_dic_path, drink_gram_path, 1e-10)
         module_beep.beep("start")
         for question3 in live_speech:
@@ -170,73 +148,15 @@ def information(task):
                 file.close()
                 pause()
                 module_beep.beep("stop")
-                print("\n-----------your favorite drink-----------\n",str(question3),"\n---------------------------------\n")
+                print("\n-----------your favorite drink-----------\n",str(question3),
+                      "\n---------------------------------\n")
                 drink = str(question3).replace("my favorite drink is ","")
                 sentence = "Is your favorite drink " + str(drink) + " ?"
-                print("\n---------------------------------\n",sentence,"\n---------------------------------\n")
+                print("\n---------------------------------\n",sentence,
+                      "\n---------------------------------\n")
 
                 # Ask yes-no question
                 module_pico.speak(sentence)
-                # Detect yes or no
-                setup_live_speech(False, yes_no_dic_path, yes_no_gram_path, 1e-10)
-                flag = True
-                while flag:
-                    module_beep.beep("start")
-                    for question4 in live_speech:
-                        print("\n[*] CONFIRM YOUR DRINK ...")
-                        #print(question4)
-
-                        # Noise list
-                        noise_words = read_noise_word(yes_no_gram_path)
-
-                        if str(question4) not in noise_words:
-                            file = open(result_path, 'a')
-                            file.write(str(datetime.datetime.now())+": "+str(question4)+"\n")
-                            file.close()
-
-                            if str(question4) == "yes":
-
-                                # Deside drink
-                                pause()
-                                module_beep.beep("stop")
-                                answer = "Sure, I understand you like " + str(drink) + "."
-                                print("\n---------------------------------\n",answer,"\n---------------------------------\n")
-                                module_pico.speak(answer)
-                                return str(drink)
-
-                            elif str(question4) == "no":
-
-                                # Fail, ask drink one more time
-                                pause()
-                                module_beep.beep("stop")
-                                answer = "Sorry, please tell me your favorite drink, again."
-                                print("\n---------------------------------\n",answer,"\n---------------------------------\n")
-                                module_pico.speak(answer)
-                                module_beep.beep("start")
-                                del (live_speech)
-                                setup_live_speech(False, drink_dic_path, drink_gram_path, 1e-10)
-                                noise_words = read_noise_word(drink_gram_path)
-                                flag = False
-                                break
-
-
-                            elif str(question4) == "please say again":
-
-                                pause()
-                                module_beep.beep("stop")
-                                print("\n---------------------------------\n",sentence,"\n---------------------------------\n")
-                                module_pico.speak(sentence)
-                                module_beep.beep("start")
-                                # Ask yes-no question to barman
-                                del (live_speech)
-                                setup_live_speech(False, yes_no_dic_path, yes_no_gram_path, 1e-10)
-                                noise_words = read_noise_word(yes_no_gram_path)
-
-                        # noise
-                        else:
-                            print(".*._noise_.*.")
-                            print("\n[*] CONFIRM YOUR DRINK ...")
-                            pass
 
             # noise
             else:
@@ -244,15 +164,59 @@ def information(task):
                 print("\n[*] PREASE SAY YOUR FAVORITE DRINK ...")
                 pass
 
-    elif task == "share":
+def main(word):
+    global confirmer_word
+    global result
+    global name
+    global drink
+    if word == "name":
+        confirmer_word = "your name"
+        result = str(name)
+        information(word)
+    elif word == "drink":
+        confirmer_word = "your favorite drink"
+        result = str(drink)
+        information(word)
+    elif word == "share":
         last_sentence = "Here is the party room. This is "\
-                        +str(name)+", and favorite drink is "+str(drink)+" , prease enjoy this party!"
+                        + str(name) + ", and favorite drink is " + \
+                        str(drink) + " , prease enjoy this party!"
         file = open(result_path, 'a')
         file.write(str(datetime.datetime.now()) + ": " + str(last_sentence) + "\n")
         file.close()
-        print("\n---------------------------------\n", last_sentence, "\n---------------------------------\n")
+        print("\n---------------------------------\n",
+              last_sentence, "\n---------------------------------\n")
         module_pico.speak(last_sentence)
         return 1
+
+    while True:
+        confirm = confirmer(confirmer_word)
+        if confirm == "yes":
+            # Deside name
+            pause()
+            module_beep.beep("stop")
+            answer = "Sure, I understand " + confirmer_word + " is " + result + "."
+            print("\n---------------------------------\n",
+                  answer, "\n---------------------------------\n")
+            module_pico.speak(answer)
+            return result
+        elif confirm == "no":
+            # Fail, ask name one more time
+            pause()
+            module_beep.beep("stop")
+            answer = "Sorry, please tell me " + confirmer_word + ", again."
+            print("\n---------------------------------\n",
+                  answer, "\n---------------------------------\n")
+            module_pico.speak(answer)
+            main(word)
+        elif confirm == "please say again":
+            pause()
+            module_beep.beep("stop")
+            print("\n---------------------------------\n", sentence,
+                  "\n---------------------------------\n")
+            module_pico.speak(sentence)
+
+
 
 
 # Stop lecognition
@@ -321,11 +285,4 @@ def setup_live_speech(lm, dict_path, jsgf_path, kws_threshold):
                              kws_threshold=kws_threshold)
 
 if __name__ == '__main__':
-    last_order = restaurant("end")
-    if str(last_order) != "restart" and last_order != 1:
-        print("Simulation: Going back to the first position ...")
-        sleep(3)
-        last_sentence = "order is "+last_order+", please put "+last_order+" on me, thank you."
-
-        print(last_sentence)
-        module_pico.speak(last_sentence)
+    main("name")
