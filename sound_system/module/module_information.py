@@ -39,7 +39,7 @@ name = None
 drink = None
 
 # Listen question, or speak the number of men and women
-def information(task):
+def information(task,option=""):
 
     ###############
     #
@@ -56,10 +56,10 @@ def information(task):
     global name
     global drink
     if task == "name":
-
-        answer = "Welcome to our party! Let me know your name."
-        print("\n---------------------------------\n", answer, "\n---------------------------------\n")
-        module_pico.speak(answer)
+        if option != -1:
+            answer = "Welcome to our party! Let me know your name."
+            print("\n---------------------------------\n", answer, "\n---------------------------------\n")
+            module_pico.speak(answer)
         setup_live_speech(False, name_dic_path, name_gram_path, 1e-10)
         module_beep.beep("start")
         for question1 in live_speech:
@@ -118,12 +118,11 @@ def information(task):
                                 answer = "Sorry, please tell me your name, again."
                                 print("\n---------------------------------\n",answer,"\n---------------------------------\n")
                                 module_pico.speak(answer)
-                                module_beep.beep("start")
-                                del (live_speech)
-                                setup_live_speech(False, name_dic_path, name_gram_path, 1e-10)
-                                noise_words = read_noise_word(name_gram_path)
-                                flag = False
-                                break
+                                #module_beep.beep("start")
+                                #del (live_speech)
+                                #setup_live_speech(False, name_dic_path, name_gram_path, 1e-10)
+                                #noise_words = read_noise_word(name_gram_path)
+                                return -1
 
 
                             elif str(question2) == "please say again":
@@ -151,9 +150,10 @@ def information(task):
                 pass
 
     elif task == "drink":
-        answer = "Let me know your favorite drink."
-        print("\n---------------------------------\n", answer, "\n---------------------------------\n")
-        module_pico.speak(answer)
+        if option != -1:
+            answer = "Let me know your favorite drink."
+            print("\n---------------------------------\n", answer, "\n---------------------------------\n")
+            module_pico.speak(answer)
         setup_live_speech(False, drink_dic_path, drink_gram_path, 1e-10)
         module_beep.beep("start")
         for question3 in live_speech:
@@ -212,12 +212,13 @@ def information(task):
                                 answer = "Sorry, please tell me your favorite drink, again."
                                 print("\n---------------------------------\n",answer,"\n---------------------------------\n")
                                 module_pico.speak(answer)
-                                module_beep.beep("start")
-                                del (live_speech)
-                                setup_live_speech(False, drink_dic_path, drink_gram_path, 1e-10)
-                                noise_words = read_noise_word(drink_gram_path)
-                                flag = False
-                                break
+                                #module_beep.beep("start")
+                                #del (live_speech)
+                                #setup_live_speech(False, drink_dic_path, drink_gram_path, 1e-10)
+                                #noise_words = read_noise_word(drink_gram_path)
+                                #flag = False
+                                #break
+                                return -1
 
 
                             elif str(question4) == "please say again":

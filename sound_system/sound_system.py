@@ -48,11 +48,25 @@ class SoundSystem(Node):
         if 'information' == msg.command:
             content = msg.content
             if content == "name":
-                name = module_information.information(content)
-                self.cerebrum_publisher("information_name", str(name))
+                option = 0
+                while True:
+                    name = module_information.information(content,option)
+                    if name == -1:
+                        option = -1
+                        pass
+                    elif name != -1:
+                        self.cerebrum_publisher("information_name", str(name))
+                        break
             elif msg.content == "drink":
-                drink = module_information.information(content)
-                self.cerebrum_publisher("information_drink", str(drink))
+                option = 0
+                while True:
+                    drink = module_information.information(content,option)
+                    if drink == -1:
+                        option = -1
+                        pass
+                    elif drink != -1:
+                        self.cerebrum_publisher("information_drink", str(drink))
+                        break
             elif msg.content == "share":
                 if module_information.information(content) == 1:
                     self.cerebrum_publisher("information_share")
