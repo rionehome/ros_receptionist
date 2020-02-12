@@ -34,6 +34,10 @@ yes_no_gram_path = file_path.replace(
 # log file
 result_path = file_path.replace(
     'module/module_information.py', 'log/information-{}.txt').format(str(datetime.datetime.now()))
+name_path = file_path.replace(
+    'module/module_information.py', 'log/name.txt')
+drink_path = file_path.replace(
+    'module/module_information.py', 'log/drink.txt')
 
 name = None
 drink = None
@@ -108,6 +112,9 @@ def information(task,option=""):
                                 answer = "Sure, I understand your name is " + str(name) + "."
                                 print("\n---------------------------------\n",answer,"\n---------------------------------\n")
                                 module_pico.speak(answer)
+                                file = open(name_path, 'a')
+                                file.write(str(datetime.datetime.now()) + " ↓\n" + str(name) + "\n")
+                                file.close()
                                 return str(name)
 
                             elif str(question2) == "no":
@@ -202,6 +209,11 @@ def information(task,option=""):
                                 answer = "Sure, I understand you like " + str(drink) + "."
                                 print("\n---------------------------------\n",answer,"\n---------------------------------\n")
                                 module_pico.speak(answer)
+                                file = open(drink_path, 'a')
+                                file.write(str(datetime.datetime.now()) + " ↓\n" + str(drink) + "\n")
+                                file.close()
+                                sleep(2)
+                                module_pico.speak('I will follow you to party room. Please following me.')
                                 return str(drink)
 
                             elif str(question4) == "no":
@@ -246,6 +258,12 @@ def information(task,option=""):
                 pass
 
     elif task == "share":
+        with open(name_path) as f:
+            name_list = [name.strip() for name in f.readlines()]
+            name = name_list[len(name_list)-1]
+        with open(drink_path) as f:
+            drink_list = [drink.strip() for drink in f.readlines()]
+            drink = drink_list[len(drink_list)-1]
         last_sentence = "Here is the party room. This is "\
                         +str(name)+", and favorite drink is "+str(drink)+" , prease enjoy this party!"
         file = open(result_path, 'a')
@@ -322,11 +340,4 @@ def setup_live_speech(lm, dict_path, jsgf_path, kws_threshold):
                              kws_threshold=kws_threshold)
 
 if __name__ == '__main__':
-    last_order = restaurant("end")
-    if str(last_order) != "restart" and last_order != 1:
-        print("Simulation: Going back to the first position ...")
-        sleep(3)
-        last_sentence = "order is "+last_order+", please put "+last_order+" on me, thank you."
-
-        print(last_sentence)
-        module_pico.speak(last_sentence)
+    last_order = information("name")

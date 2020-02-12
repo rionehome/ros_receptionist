@@ -7,7 +7,12 @@ setup(
     version='0.0.1',
     packages=[],
     py_modules=[
-        'sound_system'
+        'sound_system',
+        'turtlebot_button2',
+        'sound2_speak1',
+        'sound2_speak2',
+        'sound2_speak3',
+        'sound2_speak4'
     ],
     install_requires=['setuptools'],
     data_files=[
@@ -59,6 +64,11 @@ setup(
     entry_points={
         'console_scripts': [
             'sound_system = sound_system:main',
+            'turtlebot_button2 = turtlebot_button2:main',
+            'sound2_speak1 = sound2_speak1:main',
+            'sound2_speak2 = sound2_speak2:main',
+            'sound2_speak3 = sound2_speak3:main',
+            'sound2_speak4 = sound2_speak4:main'
         ],
     },
 )
