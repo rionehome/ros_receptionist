@@ -70,13 +70,8 @@ def confirmer(word):
                 pass
 
 
-<<<<<<< HEAD
-=======
 # Listen question, or speak the number of men and women
 def information(task,option=""):
->>>>>>> origin/develop-2
-
-def information(task):
     ###############
     #
     # use this module at find my mate section
@@ -94,19 +89,10 @@ def information(task):
     global sentence
     global first
     if task == "name":
-<<<<<<< HEAD
-        if first == True:
-            answer = "Welcome to our party! Let me know your name."
-            print("\n---------------------------------\n", answer,
-                  "\n---------------------------------\n")
-            module_pico.speak(answer)
-            first = False
-=======
         if option != -1:
             answer = "Welcome to our party! Let me know your name."
             print("\n---------------------------------\n", answer, "\n---------------------------------\n")
             module_pico.speak(answer)
->>>>>>> origin/develop-2
         setup_live_speech(False, name_dic_path, name_gram_path, 1e-10)
         module_beep.beep("start")
         for question1 in live_speech:
@@ -132,9 +118,6 @@ def information(task):
 
                 # Ask yes-no question
                 module_pico.speak(sentence)
-<<<<<<< HEAD
-                return
-=======
                 # Detect yes or no
                 setup_live_speech(False, yes_no_dic_path, yes_no_gram_path, 1e-10)
                 flag = True
@@ -197,7 +180,6 @@ def information(task):
                             print(".*._noise_.*.")
                             print("\n[*] CONFIRM YOUR NAME ...")
                             pass
->>>>>>> origin/develop-2
 
             # noise
             else:
@@ -206,19 +188,10 @@ def information(task):
                 pass
 
     elif task == "drink":
-<<<<<<< HEAD
-        if first == True:
-            answer = "Let me know your favorite drink."
-            print("\n---------------------------------\n", answer,
-                  "\n---------------------------------\n")
-            module_pico.speak(answer)
-            first = False
-=======
         if option != -1:
             answer = "Let me know your favorite drink."
             print("\n---------------------------------\n", answer, "\n---------------------------------\n")
             module_pico.speak(answer)
->>>>>>> origin/develop-2
         setup_live_speech(False, drink_dic_path, drink_gram_path, 1e-10)
         module_beep.beep("start")
         for question3 in live_speech:
@@ -244,8 +217,6 @@ def information(task):
 
                 # Ask yes-no question
                 module_pico.speak(sentence)
-<<<<<<< HEAD
-=======
                 # Detect yes or no
                 setup_live_speech(False, yes_no_dic_path, yes_no_gram_path, 1e-10)
                 flag = True
@@ -312,7 +283,6 @@ def information(task):
                             print(".*._noise_.*.")
                             print("\n[*] CONFIRM YOUR DRINK ...")
                             pass
->>>>>>> origin/develop-2
 
             # noise
             else:
@@ -320,22 +290,6 @@ def information(task):
                 print("\n[*] PREASE SAY YOUR FAVORITE DRINK ...")
                 pass
 
-<<<<<<< HEAD
-def main(word):
-    global confirmer_word
-    global result
-    global name
-    global drink
-    if word == "name":
-        confirmer_word = "your name"
-        result = str(name)
-        information(word)
-    elif word == "drink":
-        confirmer_word = "your favorite drink"
-        result = str(drink)
-        information(word)
-    elif word == "share":
-=======
     elif task == "share":
         with open(name_path) as f:
             name_list = [name.strip() for name in f.readlines()]
@@ -343,7 +297,6 @@ def main(word):
         with open(drink_path) as f:
             drink_list = [drink.strip() for drink in f.readlines()]
             drink = drink_list[len(drink_list)-1]
->>>>>>> origin/develop-2
         last_sentence = "Here is the party room. This is "\
                         + str(name) + ", and favorite drink is " + \
                         str(drink) + " , prease enjoy this party!"
@@ -451,8 +404,4 @@ def setup_live_speech(lm, dict_path, jsgf_path, kws_threshold):
                              kws_threshold=kws_threshold)
 
 if __name__ == '__main__':
-<<<<<<< HEAD
-    main("name")
-=======
     last_order = information("name")
->>>>>>> origin/develop-2
